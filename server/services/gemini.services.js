@@ -1,6 +1,6 @@
 
-const Gemini_URL = 
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent"
+const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+const Gemini_URL = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`
 
 export const generateGeminiResponse = async (prompt) => {
 
