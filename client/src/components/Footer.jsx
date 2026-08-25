@@ -76,9 +76,20 @@ function Footer() {
 
     </div>
      <div className="my-6 h-px bg-white/10" />
-     <p className='text-center text-xs text-gray-500'>
-        © {new Date().getFullYear()} PrepMind AI. All rights reserved.
-     </p>
+     <div className='flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400'>
+        <p>© {new Date().getFullYear()} PrepMind AI. All rights reserved.</p>
+        <p>
+          Made with ❤️ by{" "}
+          <a
+            href="https://github.com/priyanshuguptacoder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-300 hover:text-white underline transition-colors font-medium"
+          >
+            Priyanshu Gupta
+          </a>
+        </p>
+     </div>
    
 
       
