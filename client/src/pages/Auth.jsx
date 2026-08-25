@@ -15,8 +15,8 @@ function Auth() {
     try {
       const response = await signInWithPopup(auth,provider)
       const User = response.user
-      const name = User.displayName
       const email = User.email
+      const name = User.displayName || email?.split("@")[0] || "User"
       const result = await axios.post(serverUrl + "/api/auth/google" , {name , email},{
         withCredentials:true
       })
@@ -25,7 +25,7 @@ function Auth() {
       }
       dispatch(setUserData(result.data))
     } catch (error) {
-      console.log(error)
+      console.error("Google Auth error:", error)
     }
   }
   return (

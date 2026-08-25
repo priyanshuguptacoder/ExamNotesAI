@@ -4,19 +4,26 @@ import { getToken } from "../utils/token.js"
 
 export const googleAuth = async (req,res) => {
     try {
-        
         const {name , email} = req.body
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
         let user = await UserModel.findOne({email})
         if(!user){
             user = await UserModel.create({
-                name , email
+                name: name || email.split("@")[0] || "User",
+                email
             })
         }
         let token = await getToken(user._id)
+        if (!token) {
+            return res.status(500).json({ message: "JWT token generation failed. Ensure JWT_SECRET is set in environment." });
+        }
+        const isProduction = process.env.NODE_ENV === "production";
         res.cookie("token" , token , {
             httpOnly:true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
             path:"/",
             maxAge:7 * 24 * 60 * 60 * 1000
 
@@ -31,9 +38,9 @@ export const googleAuth = async (req,res) => {
             token
         })
     } catch (error) {
-        return res.status(500).json({message:`googleSignup Error  ${error}`})
+        console.error("googleSignup Error:", error)
+        return res.status(500).json({message:`googleSignup Error: ${error.message || error}`})
     }
-    
 }
 
 export const logOut = async (req,res) => {
