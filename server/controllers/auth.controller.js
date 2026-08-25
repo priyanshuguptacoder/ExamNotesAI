@@ -34,8 +34,7 @@ export const googleAuth = async (req,res) => {
             email: user.email,
             credits: user.credits,
             isCreditAvailable: user.isCreditAvailable,
-            notes: user.notes,
-            token
+            notes: user.notes
         })
     } catch (error) {
         console.error("googleSignup Error:", error)

@@ -56,6 +56,10 @@ export const createCreditsOrder = async (req,res) => {
 }
 
 
+// In-memory idempotency store. Survives within a single process instance.
+// For multi-instance deployments, move this to MongoDB (store event.id in a collection).
+const processedEvents = new Set()
+
 export const stripeWebhook = async (req,res) => {
     const sig = req.headers["stripe-signature"]
     let event;
@@ -64,28 +68,48 @@ export const stripeWebhook = async (req,res) => {
             req.body,
             sig,
             process.env.STRIPE_WEBHOOK_SECRET
-        )   
+        )
     } catch (error) {
-         console.log("❌ Webhook signature error:", error.message);
-    return res.status(400).send("Webhook Error");
+        console.log("❌ Webhook signature error:", error.message);
+        return res.status(400).send("Webhook Error");
     }
 
-  if(event.type === "checkout.session.completed"){
-    const session = event.data.object;
+    // Idempotency: skip already-processed events
+    if (processedEvents.has(event.id)) {
+        console.log(`⚠️ Duplicate webhook event skipped: ${event.id}`)
+        return res.json({ received: true, duplicate: true });
+    }
 
-    const userId = session.metadata.userId;
-    const creditsToAdd = Number(session.metadata.credits);
+    if (event.type === "checkout.session.completed") {
+        const session = event.data.object;
 
-    if (!userId || !creditsToAdd) {
-    return res.status(400).json({ message: "Invalid metadata" });
-  }
+        const userId = session.metadata?.userId;
+        const creditsToAdd = Number(session.metadata?.credits);
 
-  const user = await UserModel.findByIdAndUpdate(userId , {
-    $inc: { credits: creditsToAdd },
-      $set: { isCreditAvailable: true },
-  },{new:true})
+        if (!userId || !creditsToAdd || isNaN(creditsToAdd) || creditsToAdd <= 0) {
+            console.error("❌ Webhook: Invalid metadata", session.metadata);
+            return res.status(400).json({ message: "Invalid metadata" });
+        }
 
-  }
+        const user = await UserModel.findByIdAndUpdate(
+            userId,
+            {
+                $inc: { credits: creditsToAdd },
+                $set: { isCreditAvailable: true },
+            },
+            { new: true }
+        )
 
-   res.json({ received: true });
+        if (!user) {
+            console.error(`❌ Webhook: User not found for userId=${userId}`)
+            return res.status(404).json({ message: "User not found, credits not applied" });
+        }
+
+        console.log(`✅ Webhook: Added ${creditsToAdd} credits to user ${userId}. New balance: ${user.credits}`)
+
+        // Mark event as processed only after successful DB update
+        processedEvents.add(event.id)
+    }
+
+    res.json({ received: true });
 }
