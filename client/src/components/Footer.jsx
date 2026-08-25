@@ -12,6 +12,7 @@ function Footer() {
         const handleSignOut = async () => {
             try {
                 await axios.get(serverUrl+ "/api/auth/logout" , {withCredentials:true})
+                localStorage.removeItem("token")
                 dispatch(setUserData(null))
                 navigate("/auth")
                 
