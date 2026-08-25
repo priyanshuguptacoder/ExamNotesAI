@@ -39,9 +39,9 @@ function Navbar() {
         flex items-center justify-between px-8 py-4'>
 
             <div className='flex items-center gap-3'>
-                <img src={logo} alt="examnotes" className='w-9 h-9' />
+                <img src={logo} alt="prepmind" className='w-9 h-9' />
                 <span className='text-lg hidden md:block font-semibold text-white'>
-                    ExamNotes <span className='text-gray-400'>AI</span>
+                    PrepMind <span className='text-gray-400'>AI</span>
                 </span>
             </div>
 
@@ -134,7 +134,7 @@ function Navbar() {
 
                        <MenuItem text="History" onClick={()=>{setShowProfile(false);navigate("/history")}}/>
                        <div className="h-px bg-white/10 mx-3" />
-                       <MenuItem text="sign out" red  onClick={handleSignOut}/>
+                       <MenuItem text="Sign Out" red  onClick={handleSignOut}/>
                        
 
 

@@ -30,6 +30,13 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         revisionMode,
         includeDiagram,
         includeChart})
+        
+        if (!result) {
+            setError("Failed to fetch notes from server");
+            setLoading(false);
+            return;
+        }
+
         setResult(result.data)
         setLoading(false)
         setClassLevel("")

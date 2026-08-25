@@ -150,7 +150,7 @@ return(
        {popular && !isSelected && <span className='absolute top-4 right-4 text-xs px-2 py-1 rounded bg-indigo-600 text-white'>Popular</span>}
 
       {isSelected && <span className='absolute top-4 right-4 text-xs px-2 py-1 rounded bg-black text-white'>
-        Seleted
+        Selected
        </span>}
 
 

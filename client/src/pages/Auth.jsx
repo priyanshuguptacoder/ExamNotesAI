@@ -41,7 +41,7 @@ function Auth() {
           >
             <h1 className='text-2xl font-bold
             bg-linear-to-r from-white via-gray-300 to-white
-            bg-clip-text text-transparent'>ExamNotes AI</h1>
+            bg-clip-text text-transparent'>PrepMind AI</h1>
             <p className='text-sm text-gray-300 mt-1'>AI-powered exam-oriented notes & revision</p>
 
         </motion.header>
@@ -84,17 +84,17 @@ function Auth() {
               <p className=' mt-6 max-w-xl text-lg
               bg-gradient-to-br from-gray-700 via-gray-500/80 to-gray-700
               bg-clip-text text-transparent'>
-                You get <span className="font-semibold">50 FREE credits</span> to create
+                You get <span className="font-semibold">100 FREE credits</span> to create
             exam notes, project notes, charts, graphs and
             download clean PDFs — instantly using AI.
               </p>
-              <p className='mt-4 text-sm text-gray-500'> Start with 50 free credits • Upgrade anytime for more credits • Instant access</p>
+              <p className='mt-4 text-sm text-gray-500'> Start with 100 free credits • Upgrade anytime for more credits • Instant access</p>
 
         </motion.div>
 
         {/* RIGHT CONTENT */}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
-            <Feature icon="🎁" title="50 Free Credits" des="Start with 50 credits to generate notes without paying."/>
+            <Feature icon="🎁" title="100 Free Credits" des="Start with 100 credits to generate notes without paying."/>
              <Feature icon="📘" title="Exam Notes" des="High-yield, revision-ready exam-oriented notes." />
           <Feature icon="📂" title="Project Notes" des="Well-structured documentation for assignments & projects." />
           <Feature icon="📊" title="Charts & Graphs" des="Auto-generated diagrams, charts and flow graphs." />
