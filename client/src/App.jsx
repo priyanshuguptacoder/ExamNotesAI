@@ -9,7 +9,7 @@ import Notes from './pages/Notes'
 import Pricing from './pages/Pricing'
 import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
-export const serverUrl = "https://one-examnotesai-2-xxkz.onrender.com"
+export const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
 
 function App() {
   const dispatch = useDispatch()
