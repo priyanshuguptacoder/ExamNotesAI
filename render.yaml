@@ -22,7 +22,7 @@ services:
       - key: STRIPE_WEBHOOK_SECRET
         sync: false
       - key: CLIENT_URL
-        value: https://prepmind-client.onrender.com # Change this to your actual frontend URL after deployment
+        value: https://prepmind-ai-xpzl.onrender.com
 
   # 2. Frontend React App (Static Site)
   - type: web
@@ -37,7 +37,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_SERVER_URL
-        value: https://prepmind-api.onrender.com # Change this to your actual backend URL after deployment
+        value: https://prepmind-ai-yxsk.onrender.com
       - key: VITE_FIREBASE_APIKEY
         sync: false
       - key: VITE_FIREBASE_AUTH_DOMAIN

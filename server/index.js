@@ -16,18 +16,35 @@ dotenv.config()
 
 const app = express()
 
+// Trust Render reverse proxy for secure cookies over HTTPS
+app.set("trust proxy", 1)
+
 app.post(
   "/api/credits/webhook",
   express.raw({ type: "application/json" }),
   stripeWebhook
 );
 
-app.use(cors(
-    {origin: process.env.CLIENT_URL || "http://localhost:5173",
-        credentials:true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL?.replace(/\/$/, ""),
+  "https://prepmind-ai-xpzl.onrender.com",
+  "http://localhost:5173",
+  "http://localhost:8080"
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
-))
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+}))
 
 
 
